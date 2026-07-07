@@ -15,8 +15,13 @@
 - 對 LLM 友善的錯誤訊息（未設金鑰／金鑰無效／逾時／斷線／5xx／資料格式變更）。
 - `scripts/explore_api.py`：實測 CWA API、錄製離線測試 fixtures、壞金鑰行為探測。
 - `scripts/smoke_test.py`：以 stdio 啟動 server 的端對端煙霧測試。
-- pytest 測試套件（43 項）：純函式單元測試 + in-memory MCP client 整合測試（respx 攔截 HTTP）。
+- MCP resource `taiwan-weather://cities`（縣市清單）與 prompt `weather_briefing`（天氣播報範本）；
+  三個工具皆標註 `readOnlyHint`。
+- pytest 測試套件（50 項，覆蓋率 94%、CI 門檻 90%）：純函式單元測試 +
+  in-memory MCP client 整合測試（respx 攔截 HTTP）。
 - console script `taiwan-weather-mcp`，支援 `uvx --from git+…` 免 clone 執行。
-- CI（GitHub Actions）：Ubuntu/Windows 測試、ruff lint、金鑰樣式掃描。
+- CI（GitHub Actions）：Ubuntu/Windows 測試、ruff lint、金鑰樣式掃描；
+  Release workflow（發佈時自動建置並附加 wheel/sdist，預留 PyPI Trusted Publishing）。
+- `AGENTS.md`／`CLAUDE.md`：給 AI coding agent 的專案指南。
 
 [0.1.0]: https://github.com/tun0000/taiwan-weather-mcp/releases/tag/v0.1.0

@@ -25,8 +25,8 @@ jobs:
         run: |
           uv run ruff check .
           uv run ruff format --check .
-      - name: 測試（pytest，離線 fixtures）
-        run: uv run pytest
+      - name: 測試（pytest，離線 fixtures，覆蓋率門檻 90%）
+        run: uv run pytest --cov=taiwan_weather --cov=server --cov-report=term --cov-fail-under=90
 
   secret-scan:
     runs-on: ubuntu-latest

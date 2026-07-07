@@ -6,13 +6,17 @@ import pytest
 import respx
 from conftest import make_forecast_records
 from mcp.shared.memory import create_connected_server_and_client_session
+from pydantic import AnyUrl
 
 from server import mcp
 from taiwan_weather.api import BASE_URL
 from taiwan_weather.errors import (
+    MSG_CONNECTION,
     MSG_INVALID_KEY,
     MSG_MISSING_KEY,
     MSG_NO_WARNINGS,
+    MSG_SCHEMA_MISMATCH,
+    MSG_SERVER_ERROR,
     MSG_TIMEOUT,
 )
 
@@ -89,6 +93,49 @@ async def test_timeout_message():
 
 
 @respx.mock
+async def test_server_error_5xx():
+    respx.get(f"{BASE_URL}/F-C0032-001").mock(return_value=httpx.Response(503))
+    text = await call_tool("get_forecast", {"city": "台中"})
+    assert text == MSG_SERVER_ERROR.format(code=503)
+
+
+@respx.mock
+async def test_connection_error():
+    respx.get(f"{BASE_URL}/F-C0032-001").mock(side_effect=httpx.ConnectError("boom"))
+    text = await call_tool("get_forecast", {"city": "台中"})
+    assert text == MSG_CONNECTION
+
+
+@respx.mock
+async def test_schema_mismatch_forecast():
+    # success 但 records 結構不符（缺 location）→ 專屬訊息而非 traceback
+    respx.get(f"{BASE_URL}/F-C0032-001").mock(
+        return_value=httpx.Response(200, json={"success": "true", "records": {}})
+    )
+    text = await call_tool("get_forecast", {"city": "台中"})
+    assert text == MSG_SCHEMA_MISMATCH.format(dataset="F-C0032-001")
+
+
+@respx.mock
+async def test_schema_mismatch_warnings():
+    respx.get(f"{BASE_URL}/W-C0033-001").mock(
+        return_value=httpx.Response(200, json={"success": "true", "records": {}})
+    )
+    text = await call_tool("get_weather_warnings", {})
+    assert text == MSG_SCHEMA_MISMATCH.format(dataset="W-C0033-001")
+
+
+@respx.mock
+async def test_schema_mismatch_earthquakes():
+    # 連 records 欄位都沒有
+    respx.get(f"{BASE_URL}/E-A0015-001").mock(
+        return_value=httpx.Response(200, json={"success": "true"})
+    )
+    text = await call_tool("get_recent_earthquakes", {})
+    assert text == MSG_SCHEMA_MISMATCH.format(dataset="E-A0015-001")
+
+
+@respx.mock
 async def test_get_weather_warnings_none_active():
     mock_dataset(
         "W-C0033-001",
@@ -120,3 +167,23 @@ async def test_tool_docstrings_exposed():
     assert names == {"get_forecast", "get_weather_warnings", "get_recent_earthquakes"}
     for t in tools:
         assert t.description  # docstring 會成為 MCP 工具說明
+        assert t.annotations and t.annotations.readOnlyHint is True  # 全部唯讀
+
+
+async def test_cities_resource():
+    async with create_connected_server_and_client_session(mcp._mcp_server) as client:
+        resources = (await client.list_resources()).resources
+        assert any(str(r.uri) == "taiwan-weather://cities" for r in resources)
+        result = await client.read_resource(AnyUrl("taiwan-weather://cities"))
+    text = result.contents[0].text
+    assert "臺北市" in text and "連江縣" in text
+    assert len(text.split("、")) == 22
+
+
+async def test_weather_briefing_prompt():
+    async with create_connected_server_and_client_session(mcp._mcp_server) as client:
+        prompts = (await client.list_prompts()).prompts
+        assert any(p.name == "weather_briefing" for p in prompts)
+        result = await client.get_prompt("weather_briefing", {"city": "台中"})
+    text = result.messages[0].content.text
+    assert "get_forecast" in text and "台中" in text

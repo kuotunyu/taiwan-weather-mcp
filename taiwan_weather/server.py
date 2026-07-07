@@ -5,16 +5,20 @@
 """
 
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 
 from .api import fetch_dataset
-from .cities import resolve_city
+from .cities import OFFICIAL_CITIES, resolve_city
 from .errors import MSG_SCHEMA_MISMATCH, CWAError
 from .formatters import format_earthquakes, format_forecast, format_warnings
 
 mcp = FastMCP("taiwan-weather")
 
+# 三個工具都只讀取公開資料、不改變任何狀態
+READ_ONLY = ToolAnnotations(readOnlyHint=True, openWorldHint=True)
 
-@mcp.tool()
+
+@mcp.tool(annotations=READ_ONLY)
 async def get_forecast(city: str) -> str:
     """查詢台灣某縣市未來 36 小時天氣預報。
 
@@ -38,7 +42,7 @@ async def get_forecast(city: str) -> str:
         return MSG_SCHEMA_MISMATCH.format(dataset="F-C0032-001")
 
 
-@mcp.tool()
+@mcp.tool(annotations=READ_ONLY)
 async def get_weather_warnings() -> str:
     """查詢目前生效中的天氣特報（颱風、豪雨、大雨、低溫、強風等）。
 
@@ -54,7 +58,7 @@ async def get_weather_warnings() -> str:
         return MSG_SCHEMA_MISMATCH.format(dataset="W-C0033-001")
 
 
-@mcp.tool()
+@mcp.tool(annotations=READ_ONLY)
 async def get_recent_earthquakes(limit: int = 5) -> str:
     """查詢最近幾筆顯著有感地震報告。
 
@@ -71,6 +75,32 @@ async def get_recent_earthquakes(limit: int = 5) -> str:
         return e.user_message
     except Exception:
         return MSG_SCHEMA_MISMATCH.format(dataset="E-A0015-001")
+
+
+@mcp.resource(
+    "taiwan-weather://cities",
+    name="taiwan_cities",
+    description="get_forecast 可查詢的 22 個官方縣市名稱清單（也接受台/臺、英文、簡稱等常見寫法）",
+    mime_type="text/plain",
+)
+def cities_resource() -> str:
+    """22 縣市官方名稱，供 client 顯示或模型參考。"""
+    return "、".join(OFFICIAL_CITIES)
+
+
+@mcp.prompt(name="weather_briefing", title="台灣天氣簡報")
+def weather_briefing(city: str = "臺北市") -> str:
+    """產生「查詢並播報某縣市天氣」的提示詞範本。
+
+    Args:
+        city: 要播報的縣市名稱（預設臺北市）。
+    """
+    return (
+        f"請使用 get_forecast 查詢「{city}」的 36 小時天氣預報，"
+        "並用 get_weather_warnings 確認目前是否有生效中的天氣特報。"
+        "然後以親切、簡潔的口吻整理成三句以內的天氣簡報，"
+        "最後給一句出門建議（例如是否帶傘、防曬或注意低溫）。"
+    )
 
 
 def main() -> None:

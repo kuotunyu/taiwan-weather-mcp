@@ -1,6 +1,7 @@
 # taiwan-weather-mcp
 
 [![CI](https://github.com/tun0000/taiwan-weather-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/tun0000/taiwan-weather-mcp/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/badge/coverage-94%25-brightgreen.svg)](.github/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
@@ -25,6 +26,12 @@
 | `get_recent_earthquakes` | 最近幾筆顯著有感地震（時間、規模、深度、震央、各縣市最大震度摘要） | `limit`：筆數 1–10，預設 5 |
 
 對應的 CWA dataset：`F-C0032-001`（36 小時預報）、`W-C0033-001`（天氣特報）、`E-A0015-001`（顯著有感地震報告）。
+
+除了 tools 之外也提供其他 MCP primitive：
+
+- **Resource** `taiwan-weather://cities`：22 個可查詢縣市的官方名稱清單。
+- **Prompt** `weather_briefing(city)`：「查詢並播報某縣市天氣」的提示詞範本。
+- 三個工具都帶 `readOnlyHint` annotation（只讀公開資料、不改變任何狀態）。
 
 ## 1. 申請 CWA API 授權碼（免費）
 
