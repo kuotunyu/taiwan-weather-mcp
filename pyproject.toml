@@ -4,20 +4,53 @@ version = "0.1.0"
 description = "台灣即時天氣預報、天氣特報與有感地震查詢 MCP Server（資料來源：中央氣象署開放資料平臺）"
 readme = "README.md"
 license = { text = "MIT" }
+authors = [{ name = "tun0000" }]
 requires-python = ">=3.11"
+keywords = ["mcp", "model-context-protocol", "claude", "taiwan", "weather", "earthquake", "cwa"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Chinese (Traditional)",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+]
 dependencies = [
     "httpx>=0.28.1",
     "mcp>=1.28.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/tun0000/taiwan-weather-mcp"
+Repository = "https://github.com/tun0000/taiwan-weather-mcp"
+Issues = "https://github.com/tun0000/taiwan-weather-mcp/issues"
+
+[project.scripts]
+taiwan-weather-mcp = "taiwan_weather.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["taiwan_weather"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
 asyncio_mode = "auto"
 
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
     "respx>=0.23.1",
+    "ruff>=0.8",
 ]

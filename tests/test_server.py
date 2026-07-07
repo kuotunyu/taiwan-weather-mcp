@@ -4,6 +4,7 @@ respx 在 httpx transport 層攔截對 CWA 的請求。"""
 import httpx
 import pytest
 import respx
+from conftest import make_forecast_records
 from mcp.shared.memory import create_connected_server_and_client_session
 
 from server import mcp
@@ -14,8 +15,6 @@ from taiwan_weather.errors import (
     MSG_NO_WARNINGS,
     MSG_TIMEOUT,
 )
-
-from conftest import make_forecast_records
 
 
 @pytest.fixture(autouse=True)

@@ -1,7 +1,16 @@
 # taiwan-weather-mcp
 
+[![CI](https://github.com/tun0000/taiwan-weather-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/tun0000/taiwan-weather-mcp/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+
 台灣即時天氣預報、天氣特報與有感地震查詢的 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol）server，
 讓 Claude Desktop / Claude Code 直接查中央氣象署的開放資料。
+
+> **English**: An MCP server for Taiwan weather — 36-hour forecasts, active weather
+> warnings, and recent felt earthquakes — backed by Central Weather Administration
+> (CWA) open data. Tool descriptions and responses are in Traditional Chinese.
+> Requires a free CWA API key via the `CWA_API_KEY` environment variable.
 
 使用官方 [`mcp` Python SDK](https://github.com/modelcontextprotocol/python-sdk) 的 **FastMCP**
 （SDK v2 起更名為 `MCPServer`，本專案使用穩定版 v1 系列），stdio transport。
@@ -46,6 +55,14 @@ uv sync          # 會自動下載 Python 3.12 與所有依賴
 ```
 
 ## 3. 在 Claude Code 使用
+
+**最快（免 clone，只要裝好 uv）**：
+
+```bash
+claude mcp add taiwan-weather -e CWA_API_KEY=你的授權碼 -- uvx --from git+https://github.com/tun0000/taiwan-weather-mcp taiwan-weather-mcp
+```
+
+**或使用本機 clone**：
 
 ```bash
 # Windows（PowerShell，路徑換成你 clone 的位置）
@@ -128,6 +145,22 @@ cd ~/taiwan-weather-mcp && uv sync
 }
 ```
 
+### 寫法 B'：Windows 端免 clone（uvx 直接從 GitHub 執行）
+
+只要裝好 uv，不需要 clone repo（首次啟動會自動下載，之後走快取）：
+
+```json
+{
+  "mcpServers": {
+    "taiwan-weather": {
+      "command": "C:\\Users\\你的帳號\\.local\\bin\\uvx.exe",
+      "args": ["--from", "git+https://github.com/tun0000/taiwan-weather-mcp", "taiwan-weather-mcp"],
+      "env": { "CWA_API_KEY": "你的授權碼" }
+    }
+  }
+}
+```
+
 > `command` 建議填 uv 的**完整路徑**（Claude Desktop 不一定繼承你的 PATH）。
 > 在 PowerShell 執行 `(Get-Command uv).Source` 查詢實際位置
 > （winget 安裝的路徑會在 `...\WinGet\Packages\astral-sh.uv_...\uv.exe`）。
@@ -151,6 +184,7 @@ cd ~/taiwan-weather-mcp && uv sync
 
 ```bash
 uv run pytest                                          # 離線測試（fixtures）
+uv run ruff check . && uv run ruff format .            # lint / 格式化
 uv run --env-file .env python scripts/explore_api.py   # 實測 CWA API、重錄 fixtures
 uv run --env-file .env python scripts/smoke_test.py    # stdio 起 server 實呼叫三個 tool
 ```
@@ -158,8 +192,9 @@ uv run --env-file .env python scripts/smoke_test.py    # stdio 起 server 實呼
 專案結構：
 
 ```
-server.py                  # MCP server 入口（FastMCP + 3 個 tool）
+server.py                  # 薄轉接層（讓 uv run server.py 可用）
 taiwan_weather/
+  server.py                # MCP server 本體（FastMCP + 3 個 tool、console script 進入點）
   api.py                   # CWA API 呼叫（唯一做網路 I/O 的模組）
   cities.py                # 縣市名稱模糊對應（純函式）
   formatters.py            # JSON → 精簡繁中文字（純函式）
@@ -168,6 +203,8 @@ scripts/explore_api.py     # 實測 API、錄製 tests/fixtures
 scripts/smoke_test.py      # stdio 端對端煙霧測試
 tests/                     # pytest（unit + in-memory 整合測試）
 ```
+
+貢獻方式見 [CONTRIBUTING.md](CONTRIBUTING.md)，版本紀錄見 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 資料來源與授權
 

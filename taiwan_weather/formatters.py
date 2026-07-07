@@ -142,9 +142,7 @@ def format_earthquakes(records: dict, limit: int) -> str:
                 if _intensity_rank(intensity) > _intensity_rank(county_max.get(county, "")):
                     county_max[county] = intensity
         if county_max:
-            ranked = sorted(
-                county_max.items(), key=lambda kv: _intensity_rank(kv[1]), reverse=True
-            )
+            ranked = sorted(county_max.items(), key=lambda kv: _intensity_rank(kv[1]), reverse=True)
             shown = "、".join(f"{county} {intensity}" for county, intensity in ranked[:6])
             suffix = "…等地" if len(ranked) > 6 else ""
             lines.append(f"   各地最大震度：{shown}{suffix}")

@@ -16,6 +16,7 @@ def load_fixture(name: str) -> dict:
 
 def make_forecast_records(*location_names: str) -> dict:
     """依 F-C0032-001 結構產生合成測試資料。"""
+
     def location(name: str) -> dict:
         def element(el_name: str, values: list[str], unit: str) -> dict:
             return {
@@ -33,6 +34,7 @@ def make_forecast_records(*location_names: str) -> dict:
                             ("2026-07-08 18:00:00", "2026-07-09 06:00:00"),
                         ],
                         values,
+                        strict=True,
                     )
                 ],
             }

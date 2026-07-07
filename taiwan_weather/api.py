@@ -9,12 +9,12 @@ import os
 import httpx
 
 from .errors import (
-    CWAError,
     MSG_CONNECTION,
     MSG_INVALID_KEY,
     MSG_MISSING_KEY,
     MSG_SERVER_ERROR,
     MSG_TIMEOUT,
+    CWAError,
 )
 
 BASE_URL = "https://opendata.cwa.gov.tw/api/v1/rest/datastore"
@@ -39,10 +39,10 @@ async def fetch_dataset(dataset_id: str, **params) -> dict:
                 f"{BASE_URL}/{dataset_id}",
                 params={"Authorization": key, **params},
             )
-    except httpx.TimeoutException:
-        raise CWAError(MSG_TIMEOUT)
-    except httpx.HTTPError:
-        raise CWAError(MSG_CONNECTION)
+    except httpx.TimeoutException as e:
+        raise CWAError(MSG_TIMEOUT) from e
+    except httpx.HTTPError as e:
+        raise CWAError(MSG_CONNECTION) from e
 
     if resp.status_code in (401, 403):
         raise CWAError(MSG_INVALID_KEY)

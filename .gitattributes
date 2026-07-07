@@ -1,0 +1,4 @@
+# 統一以 LF 進版控，避免跨 Windows/WSL 開發時的換行雜訊
+* text=auto eol=lf
+*.png binary
+*.jpg binary

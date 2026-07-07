@@ -1,11 +1,11 @@
+from conftest import load_fixture, make_forecast_records
+
 from taiwan_weather.errors import MSG_NO_EARTHQUAKES, MSG_NO_WARNINGS
 from taiwan_weather.formatters import (
     format_earthquakes,
     format_forecast,
     format_warnings,
 )
-
-from conftest import load_fixture, make_forecast_records
 
 # ---------------------------------------------------------------- 合成資料（隨時可跑）
 
@@ -48,7 +48,9 @@ def test_warnings_grouped_by_phenomena():
             },
         }
 
-    records = {"location": [loc("基隆市", "陸上強風"), loc("宜蘭縣", "陸上強風"), loc("花蓮縣", "大雨")]}
+    records = {
+        "location": [loc("基隆市", "陸上強風"), loc("宜蘭縣", "陸上強風"), loc("花蓮縣", "大雨")]
+    }
     text = format_warnings(records)
     assert "目前生效中的天氣特報（2 種）" in text
     assert "■ 陸上強風特報" in text

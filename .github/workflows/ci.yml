@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: 安裝依賴
+        run: uv sync --frozen
+      - name: Lint（ruff）
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: 測試（pytest，離線 fixtures）
+        run: uv run pytest
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 確認 repo 內沒有真實的 CWA 授權碼
+        # .env.example 的佔位字串是 X，不會命中十六進位樣式
+        run: |
+          ! git grep -IE 'CWA-[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}'
