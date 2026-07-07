@@ -1,0 +1,78 @@
+{
+  "success": "true",
+  "result": {
+    "resource_id": "W-C0033-002",
+    "fields": [
+      {
+        "id": "datasetDescription",
+        "type": "String"
+      },
+      {
+        "id": "datasetLanguage",
+        "type": "String"
+      },
+      {
+        "id": "issueTime",
+        "type": "Timestamp"
+      },
+      {
+        "id": "startTime",
+        "type": "Timestamp"
+      },
+      {
+        "id": "endTime",
+        "type": "Timestamp"
+      },
+      {
+        "id": "update",
+        "type": "Timestamp"
+      },
+      {
+        "id": "contentLanguage",
+        "type": "String"
+      },
+      {
+        "id": "contentText",
+        "type": "String"
+      },
+      {
+        "id": "language",
+        "type": "String"
+      },
+      {
+        "id": "phenomena",
+        "type": "String"
+      },
+      {
+        "id": "significance",
+        "type": "String"
+      },
+      {
+        "id": "locationName",
+        "type": "String"
+      }
+    ]
+  },
+  "records": {
+    "record": [
+      {
+        "datasetInfo": {
+          "datasetDescription": "大雨特報",
+          "datasetLanguage": "zh-TW",
+          "validTime": {
+            "startTime": "2026-07-07 19:01:00",
+            "endTime": "2026-07-08 03:01:00"
+          },
+          "issueTime": "2026-07-07 19:00:00",
+          "update": "2026-07-07 19:04:36"
+        },
+        "contents": {
+          "content": {
+            "contentLanguage": "zh-TW",
+            "contentText": "\n                由於降雨趨於緩和，發生大雨的機率降低，故解除大雨特報。\n                "
+          }
+        }
+      }
+    ]
+  }
+}
