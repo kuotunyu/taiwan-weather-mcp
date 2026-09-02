@@ -87,7 +87,7 @@ def main() -> None:
 
         # 無效金鑰探測：確認 CWA 實際的失敗回應形式（僅印出，不存檔）
         print(f"\n{'=' * 70}\n### 無效金鑰探測（F-C0032-001, key=CWA-00000000-...）")
-        bad = fetch(client, "CWA-00000000-0000-0000-0000-000000000000", "F-C0032-001", {})
+        bad = fetch(client, "CWA-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX", "F-C0032-001", {})
         print(f"HTTP {bad.status_code}")
         print(bad.text[:300])
 
