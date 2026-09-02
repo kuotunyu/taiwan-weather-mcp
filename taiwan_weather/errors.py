@@ -24,7 +24,7 @@ MSG_SERVER_ERROR = "中央氣象署伺服器暫時無法提供服務（HTTP {cod
 
 MSG_SCHEMA_MISMATCH = (
     "CWA 回應的資料格式與預期不符（資料集 {dataset}），可能是官方格式已變更。"
-    "請至 https://github.com/tun0000/taiwan-weather-mcp/issues 回報此問題。"
+    "請至 https://github.com/kuotunyu/taiwan-weather-mcp/issues 回報此問題。"
 )
 
 MSG_NO_WARNINGS = "目前全臺無生效中的天氣警特報。"

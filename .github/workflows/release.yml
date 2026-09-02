@@ -27,7 +27,7 @@ jobs:
   # ---------------------------------------------------------------------
   # 發佈到 PyPI（尚未啟用）：
   # 1. 到 https://pypi.org/manage/account/publishing/ 新增 Trusted Publisher：
-  #    project = taiwan-weather-mcp, owner = tun0000,
+  #    project = taiwan-weather-mcp, owner = kuotunyu,
   #    repo = taiwan-weather-mcp, workflow = release.yml, environment = pypi
   # 2. 在 repo Settings → Environments 建立名為 pypi 的 environment
   # 3. 把下面整段解除註解

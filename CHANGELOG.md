@@ -24,4 +24,4 @@
   Release workflow（發佈時自動建置並附加 wheel/sdist，預留 PyPI Trusted Publishing）。
 - `AGENTS.md`／`CLAUDE.md`：給 AI coding agent 的專案指南。
 
-[0.1.0]: https://github.com/tun0000/taiwan-weather-mcp/releases/tag/v0.1.0
+[0.1.0]: https://github.com/kuotunyu/taiwan-weather-mcp/releases/tag/v0.1.0

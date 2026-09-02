@@ -5,7 +5,7 @@
 ## 開發環境
 
 ```bash
-git clone https://github.com/tun0000/taiwan-weather-mcp.git
+git clone https://github.com/kuotunyu/taiwan-weather-mcp.git
 cd taiwan-weather-mcp
 uv sync                      # 自動安裝 Python 3.12 與所有依賴
 cp .env.example .env         # 填入你的 CWA 授權碼（只有實測腳本需要）
@@ -33,6 +33,6 @@ cp .env.example .env         # 填入你的 CWA 授權碼（只有實測腳本�
 
 ## 回報問題
 
-請開 [issue](https://github.com/tun0000/taiwan-weather-mcp/issues)，附上：
+請開 [issue](https://github.com/kuotunyu/taiwan-weather-mcp/issues)，附上：
 使用環境（Claude Desktop / Claude Code、Windows / WSL）、工具呼叫內容與完整錯誤訊息
 （記得把授權碼遮掉）。

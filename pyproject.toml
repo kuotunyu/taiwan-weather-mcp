@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "台灣即時天氣預報、天氣特報與有感地震查詢 MCP Server（資料來源：中央氣象署開放資料平臺）"
 readme = "README.md"
 license = { text = "MIT" }
-authors = [{ name = "tun0000" }]
+authors = [{ name = "kuotunyu" }]
 requires-python = ">=3.11"
 keywords = ["mcp", "model-context-protocol", "claude", "taiwan", "weather", "earthquake", "cwa"]
 classifiers = [
@@ -22,9 +22,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/tun0000/taiwan-weather-mcp"
-Repository = "https://github.com/tun0000/taiwan-weather-mcp"
-Issues = "https://github.com/tun0000/taiwan-weather-mcp/issues"
+Homepage = "https://github.com/kuotunyu/taiwan-weather-mcp"
+Repository = "https://github.com/kuotunyu/taiwan-weather-mcp"
+Issues = "https://github.com/kuotunyu/taiwan-weather-mcp/issues"
 
 [project.scripts]
 taiwan-weather-mcp = "taiwan_weather.server:main"

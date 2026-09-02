@@ -1,6 +1,6 @@
 # taiwan-weather-mcp
 
-[![CI](https://github.com/tun0000/taiwan-weather-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/tun0000/taiwan-weather-mcp/actions/workflows/ci.yml)
+[![CI](https://github.com/kuotunyu/taiwan-weather-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/kuotunyu/taiwan-weather-mcp/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/badge/coverage-94%25-brightgreen.svg)](.github/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
@@ -56,7 +56,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 然後：
 
 ```bash
-git clone https://github.com/tun0000/taiwan-weather-mcp.git
+git clone https://github.com/kuotunyu/taiwan-weather-mcp.git
 cd taiwan-weather-mcp
 uv sync          # 會自動下載 Python 3.12 與所有依賴
 ```
@@ -66,7 +66,7 @@ uv sync          # 會自動下載 Python 3.12 與所有依賴
 **最快（免 clone，只要裝好 uv）**：
 
 ```bash
-claude mcp add taiwan-weather -e CWA_API_KEY=你的授權碼 -- uvx --from git+https://github.com/tun0000/taiwan-weather-mcp taiwan-weather-mcp
+claude mcp add taiwan-weather -e CWA_API_KEY=你的授權碼 -- uvx --from git+https://github.com/kuotunyu/taiwan-weather-mcp taiwan-weather-mcp
 ```
 
 **或使用本機 clone**：
@@ -94,7 +94,7 @@ claude mcp add taiwan-weather -e CWA_API_KEY=你的授權碼 -- uv --directory ~
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh        # 安裝 uv
-git clone https://github.com/tun0000/taiwan-weather-mcp.git ~/taiwan-weather-mcp
+git clone https://github.com/kuotunyu/taiwan-weather-mcp.git ~/taiwan-weather-mcp
 cd ~/taiwan-weather-mcp && uv sync
 ```
 
@@ -161,7 +161,7 @@ cd ~/taiwan-weather-mcp && uv sync
   "mcpServers": {
     "taiwan-weather": {
       "command": "C:\\Users\\你的帳號\\.local\\bin\\uvx.exe",
-      "args": ["--from", "git+https://github.com/tun0000/taiwan-weather-mcp", "taiwan-weather-mcp"],
+      "args": ["--from", "git+https://github.com/kuotunyu/taiwan-weather-mcp", "taiwan-weather-mcp"],
       "env": { "CWA_API_KEY": "你的授權碼" }
     }
   }
