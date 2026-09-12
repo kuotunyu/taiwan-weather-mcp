@@ -173,19 +173,15 @@ cd ~/taiwan-weather-mcp && uv sync
 > （winget 安裝的路徑會在 `...\WinGet\Packages\astral-sh.uv_...\uv.exe`）。
 > JSON 內的反斜線要寫成 `\\`。
 
-## 5. 示範對話
+## 5. 示範提問
 
-**36 小時天氣預報**（「台中這兩天天氣怎樣？」）
+安裝後可使用以下提問；回覆內容以當次 CWA 資料為準。
 
-![36小時預報示範](docs/images/demo-forecast.png)
-
-**天氣特報**（「現在有什麼天氣警報嗎？」）
-
-![天氣特報示範](docs/images/demo-warnings.png)
-
-**近期有感地震**（「最近有地震嗎？」）
-
-![有感地震示範](docs/images/demo-earthquake.png)
+| 提問 | 對應工具 | 回覆內容 |
+|---|---|---|
+| 台中這兩天天氣怎樣？ | `get_forecast(city="台中")` | 未來 36 小時各時段的天氣、降雨機率、氣溫與舒適度 |
+| 現在有什麼天氣警報嗎？ | `get_weather_warnings()` | 生效特報與影響縣市；無特報時會明確說明 |
+| 最近有地震嗎？ | `get_recent_earthquakes()` | 最近有感地震的時間、規模、深度、震央與震度摘要 |
 
 ## 6. 開發
 
