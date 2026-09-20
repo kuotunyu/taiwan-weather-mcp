@@ -22,6 +22,5 @@
 - console script `taiwan-weather-mcp`，支援 `uvx --from git+…` 免 clone 執行。
 - CI（GitHub Actions）：Ubuntu/Windows 測試、ruff lint、金鑰樣式掃描；
   Release workflow（發佈時自動建置並附加 wheel/sdist，預留 PyPI Trusted Publishing）。
-- `AGENTS.md`／`CLAUDE.md`：給 AI coding agent 的專案指南。
 
 [0.1.0]: https://github.com/kuotunyu/taiwan-weather-mcp/releases/tag/v0.1.0
